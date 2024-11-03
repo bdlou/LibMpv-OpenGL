@@ -1,6 +1,4 @@
-﻿using System.Globalization;
-using System.Text.Json;
-using HanumanInstitute.LibMpv.Core;
+﻿using HanumanInstitute.LibMpv.Core;
 
 namespace HanumanInstitute.LibMpv;
 
@@ -17,7 +15,7 @@ public abstract class MpvProperty<TNull, TRaw>
     public MpvProperty(MpvContext mpv, string name)
     {
         Mpv = mpv;
-        PropertyName = name.CheckNotNullOrEmpty(nameof(name));
+        PropertyName = !string.IsNullOrEmpty(name) ? name : throw new ArgumentException("Name cannot be null or empty", nameof(name));
         var type = typeof(TNull);
         Format = MpvFormatter.GetMpvFormat<TRaw>();
     }

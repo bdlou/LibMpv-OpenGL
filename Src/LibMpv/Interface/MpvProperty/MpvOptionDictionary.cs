@@ -77,16 +77,26 @@ public class MpvOptionDictionary : MpvOptionRef<IDictionary<string, string>>
     /// <summary>
     /// Adds a key/value pair to the list.
     /// </summary>
-    public void Add(string key, string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, ListOptionOperation.Add, 
-            FormatKeyValue(key.CheckNotNullOrEmpty(nameof(key)), value)).Invoke(options.ToCommandOptions());
-    
+    public void Add(string key, string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(key))
+        {
+            Mpv.ChangeList(PropertyName, ListOptionOperation.Add,
+                FormatKeyValue(key, value)).Invoke(options.ToCommandOptions());
+        }
+    }
+
     /// <summary>
     /// Adds a key/value pair to the list.
     /// </summary>
-    public Task AddAsync(string key, string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, ListOptionOperation.Add, 
-            FormatKeyValue(key.CheckNotNullOrEmpty(nameof(key)), value)).InvokeAsync(options.ToCommandOptions());
+    public Task AddAsync(string key, string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(key))
+        {
+            return Mpv.ChangeList(PropertyName, ListOptionOperation.Add, FormatKeyValue(key, value)).InvokeAsync(options.ToCommandOptions());
+        }
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Adds a dictionary of key/value pairs to the list.
@@ -96,14 +106,23 @@ public class MpvOptionDictionary : MpvOptionRef<IDictionary<string, string>>
     /// <summary>
     /// Delete item if present (does not interpret escapes).
     /// </summary>
-    public void Remove(string key, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, 
-            key.CheckNotNullOrEmpty(nameof(key))).Invoke(options.ToCommandOptions());
+    public void Remove(string key, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(key))
+        {
+            Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, key).Invoke(options.ToCommandOptions());
+        }
+    }
 
     /// <summary>
     /// Delete item if present (does not interpret escapes).
     /// </summary>
-    public Task RemoveAsync(string key, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, 
-            key.CheckNotNullOrEmpty(nameof(key))).InvokeAsync(options.ToCommandOptions());
+    public Task RemoveAsync(string key, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(key))
+        {
+            return Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, key).InvokeAsync(options.ToCommandOptions());
+        }
+        return Task.CompletedTask;
+    }
 }

@@ -231,12 +231,16 @@ public partial class MpvContext
             CaptureStdErr = captureStdErr,
         }
         ;
-        data.Args.Add(command.CheckNotNullOrEmpty(nameof(command)));
-        if (args?.Any() == true)
+
+        if (!string.IsNullOrEmpty(command))
         {
-            foreach (var item in args)
+            data.Args.Add(command);
+            if (args?.Any() == true)
             {
-                data.Args.Add(item);
+                foreach (var item in args)
+                {
+                    data.Args.Add(item);
+                }
             }
         }
 

@@ -58,16 +58,25 @@ public class MpvOptionList : MpvOptionRef<IEnumerable<string>>
     /// <summary>
     /// Append single item.
     /// </summary>
-    public void Add(string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, 
-            ListOptionOperation.Append, value.CheckNotNullOrEmpty(nameof(value))).Invoke(options.ToCommandOptions());
+    public void Add(string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            Mpv.ChangeList(PropertyName, ListOptionOperation.Append, value).Invoke(options.ToCommandOptions());
+        }
+    }
 
     /// <summary>
     /// Append single item.
     /// </summary>
-    public Task AddAsync(string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, 
-            ListOptionOperation.Append, value.CheckNotNullOrEmpty(nameof(value))).InvokeAsync(options.ToCommandOptions());
+    public Task AddAsync(string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            return Mpv.ChangeList(PropertyName, ListOptionOperation.Append, value).InvokeAsync(options.ToCommandOptions());
+        }
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Adds a list of items to the list.
@@ -114,16 +123,25 @@ public class MpvOptionList : MpvOptionRef<IEnumerable<string>>
     /// <summary>
     /// Delete item if present (does not interpret escapes).
     /// </summary>
-    public void Remove(string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, 
-            ListOptionOperation.Remove, value.CheckNotNullOrEmpty(nameof(value))).Invoke(options.ToCommandOptions());
+    public void Remove(string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, value).Invoke(options.ToCommandOptions());
+        }
+    }
 
     /// <summary>
     /// Delete item if present (does not interpret escapes).
     /// </summary>
-    public Task RemoveAsync(string value, MpvAsyncOptions? options = null) =>
-        Mpv.ChangeList(PropertyName, 
-            ListOptionOperation.Remove, value.CheckNotNullOrEmpty(nameof(value))).InvokeAsync(options.ToCommandOptions());
+    public Task RemoveAsync(string value, MpvAsyncOptions? options = null)
+    {
+        if (!string.IsNullOrEmpty(value))
+        {
+            return Mpv.ChangeList(PropertyName, ListOptionOperation.Remove, value).InvokeAsync(options.ToCommandOptions());
+        }
+        return Task.CompletedTask;
+    }
 
     /// <summary>
     /// Append an item, or remove if if it already exists (no escapes).

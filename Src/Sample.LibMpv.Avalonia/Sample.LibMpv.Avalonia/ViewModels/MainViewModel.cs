@@ -1,6 +1,5 @@
 ﻿using HanumanInstitute.LibMpv;
 using HanumanInstitute.LibMpv.Avalonia;
-using HanumanInstitute.LibMpv.Core;
 using ReactiveUI;
 using ReactiveUI.Fody.Helpers;
 
